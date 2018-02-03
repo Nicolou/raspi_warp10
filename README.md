@@ -16,12 +16,15 @@ La consultation des relevés des capteurs se fait simplement via un navigateur w
 le Raspbery PI 2 B, avec quelques capteurs connectés en I2C
 
 
+
+
+
 ## Comment faire ...
 ### schéma des composants logiciels
 ![matos](doc/images/schema_archi1.jpg)
 
 
-Nginx : serveur web frontal utilisé en reverse-proxy afin de permettre aux clients ( tablette, ordi, smartphone ) d'accéder aux applcations en passant par le port standard http (80). Ceci permet parfois d'éviter aux clients d'être bloqués par les politiques de sécurité mises en places par les fournisseurs d'accès à internet.
+Nginx : serveur web frontal utilisé en reverse-proxy afin de permettre aux clients ( tablette, ordi, smartphone ) d'accéder aux applications en passant par le port standard http (80). Ceci permet parfois d'éviter aux clients d'être bloqués par les politiques de sécurité mises en places par les fournisseurs d'accès à internet.
 
 Grafana : qu'on ne présente plus...
 
@@ -35,10 +38,11 @@ Cette appli est à adapter (ou a réécrire entièrement ) en fonction des capte
 
 #### pré-requis
 avant de commencer, il faut avoir un raspberry opérationnel. Le rasp utilisé pour ce projet est de type B version 2.
-Le système d'exploitation est un linux installé à partir de la disptribution officielle [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
+Le système d'exploitation est un linux installé à partir de la distribution officielle à télécharger depuis [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
 
-graver l'image derniere version de raspbian sur microSD (https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
+graver l'image de raspbian sur microSD. voir [ici](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
 
+Une fois la bebête démarrer, clavier et écran connectés, la configurer...
 Pour plus de facilité, activer le serveur ssh du rasp afin de s'y connecter depuis son ordinateur favori.
 voir la commande
 > sudo raspi-config.
@@ -47,10 +51,14 @@ voir la commande
 	* ssh	
 	* activer i2c
 
+
 #### Nginx
-1. installation : sudo apt-get install nginx
+* installation
 > sudo apt-get nginx
+
 dans le fichier de conf /etc/nginx/sites-enabled/default, ajouter à la rubrique server{}
+> sudo vi /etc/nginx/sites-enabled/default
+
 ```
 server {
 	listen 80 default_server;
@@ -72,20 +80,21 @@ server {
         }
 }
 ```
-1. puis restart de nginx
+* puis restart de nginx
 > sudo systemctl restart nginx.service
 
-site pour comprendre ... : https://homeserver-diy.net/wiki/index.php?title=Installation_et_configuration_d%E2%80%99un_reverse_proxy_avec_NginX
+un site internet pour comprendre un peu [lien](https://homeserver-diy.net/wiki/index.php?title=Installation_et_configuration_d%E2%80%99un_reverse_proxy_avec_NginX)
+
 
 #### Warp10
 
-1. prérequis installer java sdk8 pour ARM
+##### prérequis installer java sdk8 pour ARM
 pour cela aller sur le site d'oracle java http://www.oracle.com/technetwork/java/javase/downloads/index.html
 et choisir __SDK v8__
 
-un fois téléchargé le fichier jdk-8u151-linux-arm32-vfp-hflt.tar.gz, le décompresser dans /opt du rasp
+un fois téléchargé le fichier jdk-8u151-linux-arm32-vfp-hflt.tar.gz, le décompresser dans le répertore /opt du rasp
 
-1. installer warp10
+##### installer warp10
 aller sur le site http://www.warp10.io/getting-started/ pour télécharger l'archive tar.gz (clic sur le bouton gris download)
 
 configuration en user root :
@@ -99,14 +108,14 @@ WARP10_HEAP=512m		   <--- limite par notre raspberry
 WARP10_HEAP_MAX=512m               <--- idem
 ```
 
-1. première exécution
+* première exécution
 > ./warp10-standalone.sh bootstrap
 
-1. ouvrir le fichier /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
+* ouvrir le fichier /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
 > vi /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
 et redefinir `standalone.host = x.x.x.x`  ou x.x.x.x est l'adresse du lan du rasp. ( par exemple 192.168.0.0) 
 
-1. configurer warp10 avec systemd pour redémarrage automatique lors du boot du raspberry
+* configurer warp10 avec systemd pour redémarrage automatique lors du boot du raspberry
 copier le fichier war10.service  vers /lib/systemd/system
 > cp /opt/warp10-1.2.12-rc2/bin/warp10.service /lib/systemd/system/
 > chmod 644 /lib/systemd/system/pySensors.service /lib/systemd/system/warp10.service
