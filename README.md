@@ -7,11 +7,11 @@ Le stockage et l'extration des métriques se fait à partir de l'application war
 Les données sont consultées via un navigateur web avec l'application Grafana  ( https://grafana.com/ )
 
 ## vue des graphiques :
-![img](images/graf1.png)
+![img](doc/images/graf1.png)
 Format: ![Alt Text]( copy ecran grafana)
 
 ## matériels en action :
-![matos](images/matos1.jpg)
+![matos](doc/images/matos1.jpg)
 Format: ![Alt Text]( photo du rasp)
 
 
