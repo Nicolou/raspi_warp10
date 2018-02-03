@@ -1,0 +1,178 @@
+1. graver l'image derniere version de raspbian sur microSD
+https://www.raspberrypi.org/documentation/installation/installing-images/linux.md
+
+2. premier démarrage :
+	sudo rapsi-config
+   . clavier
+   . timezonze
+   . ssh
+
+2. configurer le wifi
+ 
+  ajouter fichier /etc/network/interfaces.d/wifi
+auto wlan0
+iface wlan0 inet dhcp
+wireless-essid freebox_YQPTPU
+wireless-key abcdef2920
+
+3.  config freebox, configurer les baux DHCP
+
+4. installer java sdk8 pour ARM ( site java ) http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+jdk-8u151-linux-arm32-vfp-hflt.tar.gz
+
+dans /opt
+
+5. installer warp10
+http://www.warp10.io/getting-started/
+
+dans /opt
+
+configuration :
+cd /opt/warp10-1.2.12-rc2/bin
+
+sudo vi warp10-standalone.sh 
+adapter :
+JAVA_HOME=/opt/jdk1.8.0_151/
+WARP10_HEAP=512m
+WARP10_HEAP_MAX=512m
+
+
+6. exexute warp10
+first time :
+sudo ./warp10-standalone.sh bootstrap
+
+sudo vi /opt/warp10-1.2.12-rc2/etc/conf-standalone.con
+et redefinir 
+standalone.host = 192.168.0.0
+
+
+
+##################### programmation capteur
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install build-essential libi2c-dev python-dev
+sudo apt-get install i2c-tools
+sudo apt-get install git
+sudo apt-get install libffi-dev
+
+
+
+https://learn.adafruit.com/using-the-bmp085-with-raspberry-pi/using-the-adafruit-bmp-python-library
+https://github.com/adafruit/Adafruit_Python_BMP
+https://github.com/vitally/BMP280
+https://github.com/maxlklaxl/python-tsl2591
+
+
+
+
+######### permaliink test warp10
+## fetch capteur
+http://192.168.0.200:8090/#/warpscript/J1A0T2Mwbi5rbEYzZnZBUXl0T09aaEhpdnVoTXFwVVZNT2VNT0JHY2NjNkkxM0k2eEkuUjJULmtrOEpsTGdaRkxUNndfcXlfbVVYZkN0ZHh5MTJMbG0uVXZkV1M1czMzUzFoTHNWS2w0VGVCcC5ocjFqZ3NJYVI0RFhUQklXc1pWajl5WmJnbFNUV3FpRVZYNGx3Y05fYThYaThHbHE5Mm8nCid%2BaW8ud2FycDEwLmJvb3RzdHJhcC4uKicKe30KTk9XCi0xMDAKNSAtPkxJU1QKRkVUQ0g%3D/eyJ1cmwiOiJodHRwOi8vMTkyLjE2OC4wLjIwMDo4MDgwL2FwaS92MCIsImZldGNoRW5kcG9pbnQiOiIvZmV0Y2giLCJoZWFkZXJOYW1lIjoiWC1XYXJwMTAifQ%3D%3D
+## delete 
+http://192.168.0.200:8090/#/warpscript/J0hydnRxUmNvdHVISU1BUVhBU2NzdlRVUW53cnl3VGM1dDRHa3FfTlZsaGtham82a0xQdFQ5b2pUOVFEWEVrNk91c3BNUVFwU2V2TWdBbXpzMGs4RFNTYklTM1VQM29vTVJ6UnQ1SFdtekVIRDNZdmtLMGhkaVUuMVFhTG4ubXlRJwonaW8ud2FycDEwLmJvb3RzdHJhcC50ZW1we30nCicyMDE4LTAxLTI4VDE1OjE2OjAwLjAwMFonCicyMDE4LTAxLTI4VDE1OjI2OjAwLjAwMFonCjEwCkRFTEVURQo%3D/eyJ1cmwiOiJodHRwOi8vMTkyLjE2OC4wLjIwMDo4MDgwL2FwaS92MCIsImZldGNoRW5kcG9pbnQiOiIvZmV0Y2giLCJoZWFkZXJOYW1lIjoiWC1XYXJwMTAifQ%3D%3D
+
+#################### start script and warp10 on boot
+use systemd
+__________________________________________
+copy file war10.service ( from bin of warp10 ) to /lib/systemd/system
+
+
+___________________________________________
+/lib/systemd/system/pySensors.service 
+[Unit]
+Description=Sensors acquisition service to warp10
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python -u acquisition.py
+WorkingDirectory=/home/pi/sensorsProg/acquisitionv1
+StandardOutput=inherit
+StandardError=inherit
+Restart=on-eer
+RestartSec=60
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+execute :
+sudo chmod 644 /lib/systemd/system/pySensors.service /lib/systemd/system/warp10.service
+sudo systemctl daemon-reload
+
+
+######################### grafana ##################
+use wiki et git 
+https://github.com/fg2it/grafana-on-raspberry/wiki
+suivre les indications
+
+____________________________________________
+paramétrage de grafana
+
+pi@raspi-warp10:~ $ sudo cat /etc/grafana/grafana.ini | grep -v -B 1 '^;\|^$\|^#\|^\['
+# possible values : production, development
+app_mode = production
+--
+# instance name, defaults to HOSTNAME environment variable value or hostname if HOSTNAME var is empty
+instance_name = ${HOSTNAME}
+--
+#
+data = /var/lib/grafana
+--
+#
+logs = /var/log/grafana
+--
+#
+plugins = /var/lib/grafana/plugins
+--
+# Protocol (http, https, socket)
+protocol = http
+--
+# The http port  to use
+http_port = 3000
+--
+# The public facing domain name used to access grafana from a browser
+domain = nicolou.freeboxos.fr
+--
+# If you use reverse proxy and sub path specify full url (with sub path)
+root_url = http://nicolou.freeboxos.fr:3000
+--
+# Either "mysql", "postgres" or "sqlite3", it's your choice
+type = sqlite3
+--
+# default admin user, created on startup
+admin_user = admin
+--
+# used for signing
+secret_key = SW2YcwTIb9zpOOhoPsMm
+--
+# Auto-login remember days
+login_remember_days = 7
+cookie_username = grafana_user
+cookie_remember_name = grafana_remember
+--
+# Allow non admin users to create organizations
+allow_org_create = false
+--
+# Default role new users will be automatically assigned (if disabled above is set to true)
+auto_assign_org_role = Viewer
+--
+# enable anonymous access
+enabled = true
+--
+[auth.basic]
+enabled = true
+_________________________________________________
+
+plugin warp10
+
+
+############################# reverse proxy ngnix
+sudo apt-get nginx
+
+https://homeserver-diy.net/wiki/index.php?title=Installation_et_configuration_d%E2%80%99un_reverse_proxy_avec_NginX
+
+

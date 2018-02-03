@@ -1,0 +1,15 @@
+[Unit]
+Description=Sensors acquisition service to warp10
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python -u acquisition.py
+WorkingDirectory=/home/pi/sensorsProg/acquisitionv1
+StandardOutput=inherit
+StandardError=inherit
+Restart=on-failure
+RestartSec=60
+User=pi
+
+[Install]
+WantedBy=multi-user.target

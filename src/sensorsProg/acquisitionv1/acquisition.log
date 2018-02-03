@@ -1,0 +1,65 @@
+2018-01-25 22:44:37,400 - __main__ - INFO - programme started
+2018-01-25 22:44:37,422 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x6959 from register pair 0x88, 0x89
+2018-01-25 22:44:37,425 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x6524 from register pair 0x8A, 0x8B
+2018-01-25 22:44:37,427 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0xFC18 from register pair 0x8C, 0x8D
+2018-01-25 22:44:37,429 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x9629 from register pair 0x8E, 0x8F
+2018-01-25 22:44:37,431 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0xD596 from register pair 0x90, 0x91
+2018-01-25 22:44:37,433 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x0BD0 from register pair 0x92, 0x93
+2018-01-25 22:44:37,435 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x11F5 from register pair 0x94, 0x95
+2018-01-25 22:44:37,437 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x00F4 from register pair 0x96, 0x97
+2018-01-25 22:44:37,439 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0xFFF9 from register pair 0x98, 0x99
+2018-01-25 22:44:37,441 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x3C8C from register pair 0x9A, 0x9B
+2018-01-25 22:44:37,443 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0xC6F8 from register pair 0x9C, 0x9D
+2018-01-25 22:44:37,445 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x1770 from register pair 0x9E, 0x9F
+2018-01-25 22:44:37,447 - BMP280 - DEBUG - T1 =  26969
+2018-01-25 22:44:37,448 - BMP280 - DEBUG - T2 =  25892
+2018-01-25 22:44:37,449 - BMP280 - DEBUG - T3 =  -1000
+2018-01-25 22:44:37,450 - BMP280 - DEBUG - P1 =  38441
+2018-01-25 22:44:37,451 - BMP280 - DEBUG - P2 = -10858
+2018-01-25 22:44:37,452 - BMP280 - DEBUG - P3 =   3024
+2018-01-25 22:44:37,453 - BMP280 - DEBUG - P4 =   4597
+2018-01-25 22:44:37,454 - BMP280 - DEBUG - P5 =    244
+2018-01-25 22:44:37,455 - BMP280 - DEBUG - P6 =     -7
+2018-01-25 22:44:37,457 - BMP280 - DEBUG - P7 =  15500
+2018-01-25 22:44:37,458 - BMP280 - DEBUG - P8 = -14600
+2018-01-25 22:44:37,459 - BMP280 - DEBUG - P9 =   6000
+2018-01-25 22:44:38,464 - warp10Client - DEBUG -  warp10 data string = 1516916678464135// io.warp10.bootstrap.lux{sensor=1, } 4.08
+
+2018-01-25 22:44:38,466 - __main__ - DEBUG - capteur luminuosité : lux:4.08 ,total:1 , infraRouge:0
+2018-01-25 22:44:38,468 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Wrote 0x7F to register 0xF4
+2018-01-25 22:44:38,479 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x74 from register 0xFA
+2018-01-25 22:44:38,481 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x48 from register 0xFB
+2018-01-25 22:44:38,484 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0xC0 from register 0xFC
+2018-01-25 22:44:38,486 - BMP280 - DEBUG - Raw temperature 0x448C (476300)
+2018-01-25 22:44:38,487 - BMP280 - DEBUG - Calibrated temperature 13.8 C
+2018-01-25 22:44:38,489 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Wrote 0x7F to register 0xF4
+2018-01-25 22:44:38,500 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x54 from register 0xF7
+2018-01-25 22:44:38,502 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x18 from register 0xF8
+2018-01-25 22:44:38,505 - Adafruit_I2C.Device.Bus.1.Address.0X77 - DEBUG - Read 0x90 from register 0xF9
+2018-01-25 22:44:38,506 - BMP280 - DEBUG - Raw pressure 0x4189 (344457)
+2018-01-25 22:44:38,508 - BMP280 - DEBUG - Sealevel pressure 101403.718591 Pa
+2018-01-25 22:44:38,510 - __main__ - DEBUG - capteur BMP280 : température:13.8, pression niveau de la mer:1014.03718591
+2018-01-25 22:44:38,511 - warp10Client - DEBUG -  warp10 data string = 1516916678464135// io.warp10.bootstrap.lux{sensor=1, } 4.08
+1516916678511740// io.warp10.bootstrap.temp{sensor=1, } 13.8
+
+2018-01-25 22:44:38,513 - warp10Client - DEBUG -  warp10 data string = 1516916678464135// io.warp10.bootstrap.lux{sensor=1, } 4.08
+1516916678511740// io.warp10.bootstrap.temp{sensor=1, } 13.8
+1516916678513558// io.warp10.bootstrap.pressure{sensor=1, } 1014.03718591
+
+2018-01-25 22:49:54,034 - __main__ - INFO - programme started
+2018-01-25 22:52:52,050 - __main__ - INFO - programme started
+2018-01-25 22:53:30,069 - __main__ - INFO - programme started
+2018-01-25 22:54:49,342 - __main__ - INFO - programme started
+2018-01-25 22:56:42,767 - __main__ - INFO - programme started
+2018-01-25 22:57:14,922 - __main__ - INFO - programme started
+2018-01-25 22:59:46,303 - __main__ - INFO - programme started
+2018-01-25 23:01:43,456 - __main__ - INFO - programme started
+2018-01-25 23:05:21,604 - __main__ - INFO - programme started
+2018-01-25 23:06:39,706 - __main__ - INFO - programme started
+2018-01-25 23:08:02,441 - __main__ - INFO - programme started
+2018-01-28 16:23:16,648 - __main__ - INFO - programme started
+2018-01-28 18:19:30,059 - __main__ - INFO - programme started
+2018-01-28 18:22:44,592 - __main__ - INFO - programme started
+2018-01-28 18:25:59,328 - __main__ - INFO - programme started
+2018-01-28 18:29:13,846 - __main__ - INFO - programme started
+2018-01-28 18:32:55,948 - __main__ - INFO - programme started
