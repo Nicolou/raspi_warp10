@@ -91,15 +91,19 @@ Installer java sdk8 pour ARM :
 pour cela aller sur le site d'oracle java http://www.oracle.com/technetwork/java/javase/downloads/index.html
 et choisir __SDK v8__
 
-un fois téléchargé le fichier jdk-8u151-linux-arm32-vfp-hflt.tar.gz, le décompresser dans le répertore /opt du rasp
+Téléchargé le fichier jdk-8u151-linux-arm32-vfp-hflt.tar.gz
+et copier sur le raspberry dans le répertoire /opt .
+Puis le décompresser dans ce répertore (/opt)
 
 #### installer warp10
 aller sur le site http://www.warp10.io/getting-started/ pour télécharger l'archive tar.gz (clic sur le bouton gris download)
+copier le fichier sur le raspberry dans le répertoire /opt
+puis le décompresser : `sudo tar xvzf warp10-1.2.12-rc2.tar.gz`
 
-configuration en user root :
-> sudo su -
-> cd /opt/warp10-1.2.12-rc2/bin
-> vi warp10-standalone.sh 
+aller dans warp10-1.2.12-rc2/bin : `cd /opt/warp10-1.2.12-rc2/bin`
+
+editer le fichier warp10-standalone.sh pour adapter quelques variables...`sudo vi warp10-standalone.sh`
+ 
 adapter :
 ```
 JAVA_HOME=/opt/jdk1.8.0_151/       <--- fonction de votre install java
@@ -108,10 +112,10 @@ WARP10_HEAP_MAX=512m               <--- idem
 ```
 
 * première exécution
-> ./warp10-standalone.sh bootstrap
+> sudo ./warp10-standalone.sh bootstrap
 
 * ouvrir le fichier /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
-> vi /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
+> sudo vi /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
 
 et redefinir `standalone.host = x.x.x.x`  ou x.x.x.x est l'adresse du lan du rasp. ( par exemple 192.168.0.0) 
 
@@ -125,6 +129,10 @@ puis démarrage de warp10 ( tada ! )
 > systemctl start warp10-service
 
 (fin de la config en user root)
+
+#### tester warp10
+depuis un navigateur web, se connecter sur le raspberry pour aller sur quantum : http://[adresse ip du rasp]/quantum
+le site suivant doit s'afficher. Ensuite essayer quelques commande warp10 pour vous initier : [warp10](http://www.warp10.io/tools/quantum/)
 
 
 ### Grafana
@@ -175,11 +183,18 @@ puis définir 'grafana' comme propriétaire du répertoire plugins;
 redémarrer grafana pour prendre en compte les modifications :
 `sudo systemctl restart grafana-server.service`
 
+#### tester grafana
+depuis un navigateur web, se connecter sur le raspberry pour aller sur grafana : http://[adresse ip du rasp]/grafana
+Le navigateur doit afficher la page d'acceuil de grafana
+
+
 
 TODO :
 - doc pour le scrypt python des capteurs
 
 - tutos sur l'utilisation de warp10 puis de grafana.
+
+- rendre accéssible le rasp depuis internet.
 
 
 
