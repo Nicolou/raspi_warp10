@@ -123,8 +123,11 @@ et redefinir `standalone.host = x.x.x.x`  ou x.x.x.x est l'adresse du lan du ras
 
 copier le fichier war10.service  vers /lib/systemd/system
 > cp /opt/warp10-1.2.12-rc2/bin/warp10.service /lib/systemd/system/
+
 > chmod 644 /lib/systemd/system/pySensors.service /lib/systemd/system/warp10.service
+
 > systemctl daemon-reload
+
 puis démarrage de warp10 ( tada ! )
 > systemctl start warp10-service
 
@@ -132,7 +135,8 @@ puis démarrage de warp10 ( tada ! )
 
 #### tester warp10
 depuis un navigateur web, se connecter sur le raspberry pour aller sur quantum : http://[adresse ip du rasp]/quantum
-le site suivant doit s'afficher. Ensuite essayer quelques commande warp10 pour vous initier : [warp10](http://www.warp10.io/tools/quantum/)
+
+le site doit s'afficher. Ensuite essayer quelques commandes warp10 pour vous initier : [warp10](http://www.warp10.io/tools/quantum/)
 
 
 ### Grafana
@@ -185,6 +189,7 @@ redémarrer grafana pour prendre en compte les modifications :
 
 #### tester grafana
 depuis un navigateur web, se connecter sur le raspberry pour aller sur grafana : http://[adresse ip du rasp]/grafana
+
 Le navigateur doit afficher la page d'acceuil de grafana
 
 
