@@ -34,9 +34,7 @@ Application de capture en python : c'est là que réside le travail de programma
 Cette appli est à adapter (ou a réécrire entièrement ) en fonction des capteurs à relever. C'est ce programme qui va écrire dans warp10 les métriques via une connexion http de type POST.
 
 
-### procédure d'installation des logiciels
-
-#### pré-requis
+### pré-requis
 avant de commencer, il faut avoir un raspberry opérationnel. Le rasp utilisé pour ce projet est de type B version 2.
 Le système d'exploitation est un linux installé à partir de la distribution officielle à télécharger depuis [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
 
@@ -52,7 +50,7 @@ voir la commande
 	* activer i2c
 
 
-#### Nginx
+### Nginx
 * installation
 > sudo apt-get nginx
 
@@ -86,15 +84,16 @@ server {
 un site internet pour comprendre un peu [lien](https://homeserver-diy.net/wiki/index.php?title=Installation_et_configuration_d%E2%80%99un_reverse_proxy_avec_NginX)
 
 
-#### Warp10
+### Warp10
 
-##### prérequis installer java sdk8 pour ARM
+#### prérequis
+Installer java sdk8 pour ARM :
 pour cela aller sur le site d'oracle java http://www.oracle.com/technetwork/java/javase/downloads/index.html
 et choisir __SDK v8__
 
 un fois téléchargé le fichier jdk-8u151-linux-arm32-vfp-hflt.tar.gz, le décompresser dans le répertore /opt du rasp
 
-##### installer warp10
+#### installer warp10
 aller sur le site http://www.warp10.io/getting-started/ pour télécharger l'archive tar.gz (clic sur le bouton gris download)
 
 configuration en user root :
@@ -113,9 +112,11 @@ WARP10_HEAP_MAX=512m               <--- idem
 
 * ouvrir le fichier /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
 > vi /opt/warp10-1.2.12-rc2/etc/conf-standalone.conf
+
 et redefinir `standalone.host = x.x.x.x`  ou x.x.x.x est l'adresse du lan du rasp. ( par exemple 192.168.0.0) 
 
 * configurer warp10 avec systemd pour redémarrage automatique lors du boot du raspberry
+
 copier le fichier war10.service  vers /lib/systemd/system
 > cp /opt/warp10-1.2.12-rc2/bin/warp10.service /lib/systemd/system/
 > chmod 644 /lib/systemd/system/pySensors.service /lib/systemd/system/warp10.service
@@ -126,9 +127,55 @@ puis démarrage de warp10 ( tada ! )
 (fin de la config en user root)
 
 
+### Grafana
+#### installation
+suivre les indications fournies sur le site [grafana-on-raspberry wiki section](https://github.com/fg2it/grafana-on-raspberry/wiki)
+
+en gros :
+```
+sudo dpkg -i /tmp/grafana_4.6.3_armhf.deb
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable grafana-server
+```
+
+#### paramétrage
+modifier les paramètres __domain__ et __root_url__ du fichier de configuration __/etc/grafana/grafana.ini__
+
+```
+\# The public facing domain name used to access grafana from a browser
+domain = (le nom de domaine qui hebergera votre site)
+
+\# If you use reverse proxy and sub path specify full url (with sub path)
+root_url = ( l'url complete pour atteindre le site grafana ,  exemple  http://votre_domaine/grafana
+
+# Either "mysql", "postgres" or "sqlite3", it's your choice
+type = sqlite3
+```
+
+#### installation du plugin warp10 :
+
+télécharger en fichier zip le plugin depuis https://github.com/cityzendata/grafana-warp10
+`wget -L https://github.com/cityzendata/grafana-warp10/archive/master.zip`
+extraire du zip la partie /dist :
+`unzip master.zip grafana-warp10-master/dist*`
+et renommé plus simplement le plugin 
+`mv grafana-warp10-master warp10_plug`
+
+si le répertoire */var/lib/grafana/plugins* n'existe pas alors le créer en user grafana :
+`sudo su grafana -c 'mkdir /var/lib/grafana/plugins'`
+et enfin déplacer le répertoire warp10_plug dans le répertoire plugins de grafana
+`sudo mv warp10_plug /var/lib/grafana/plugins/`
+puis définir 'grafana' comme propriétaire du répertoire plugins;
+`sudo chown -R grafana:grafana /var/lib/grafana/plugins`
+
+redémarrer grafana pour prendre en compte les modifications :
+`sudo systemctl restart grafana-server.service`
 
 
+TODO :
+- doc pour le scrypt python des capteurs
 
+- tutos sur l'utilisation de warp10 puis de grafana.
 
 
 
