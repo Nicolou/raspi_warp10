@@ -156,15 +156,19 @@ type = sqlite3
 
 télécharger en fichier zip le plugin depuis https://github.com/cityzendata/grafana-warp10
 `wget -L https://github.com/cityzendata/grafana-warp10/archive/master.zip`
+
 extraire du zip la partie /dist :
 `unzip master.zip grafana-warp10-master/dist*`
+
 et renommé plus simplement le plugin 
 `mv grafana-warp10-master warp10_plug`
 
 si le répertoire */var/lib/grafana/plugins* n'existe pas alors le créer en user grafana :
 `sudo su grafana -c 'mkdir /var/lib/grafana/plugins'`
+
 et enfin déplacer le répertoire warp10_plug dans le répertoire plugins de grafana
 `sudo mv warp10_plug /var/lib/grafana/plugins/`
+
 puis définir 'grafana' comme propriétaire du répertoire plugins;
 `sudo chown -R grafana:grafana /var/lib/grafana/plugins`
 
@@ -176,6 +180,7 @@ TODO :
 - doc pour le scrypt python des capteurs
 
 - tutos sur l'utilisation de warp10 puis de grafana.
+
 
 
 
