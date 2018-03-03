@@ -3,7 +3,7 @@
 ce projet présente la mise en oeuvre de Warp10.io et Grafana sur raspberry PI
 dans le but de récolter et d'exploiter des métriques provenant de capteurs externes.
 
-Le stockage et l'extration des métriques se fait à partir de l'application warp10 (http://warp10.io)
+Le stockage et l'extraction des métriques se fait à partir de l'application warp10 (http://warp10.io)
 Les données sont consultées via un navigateur web avec l'application Grafana  ( https://grafana.com/ )
 
 ## le projet en actions :
@@ -44,6 +44,7 @@ Une fois la bebête démarrer, clavier et écran connectés, la configurer...
 Pour plus de facilité, activer le serveur ssh du rasp afin de s'y connecter depuis son ordinateur favori.
 voir la commande
 > sudo raspi-config.
+
 	* timezone
 	* clavier
 	* ssh	
@@ -64,15 +65,21 @@ server {
 	root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;
 	server_name _;
+
+	#obliger de faire cela pour by-passer le bug concernant l'acces au fichier editor.js du pluggin warp10
 	location / {
-		try_files $uri $uri/ =404;
+		proxy_pass http://localhost:3000/;
 	}
+
+	#redirection vers grafana
 	location /grafana/ {
 		proxy_pass http://localhost:3000/;
 	}
+	#redirection vers warp10
 	location /warp10/ {
 		proxy_pass http://localhost:8080/;
 	}
+	#redirection vers quantum
         location /quantum/ {
                 proxy_pass http://localhost:8090/;
         }
@@ -145,6 +152,8 @@ suivre les indications fournies sur le site [grafana-on-raspberry wiki section](
 
 en gros :
 ```
+sudo apt-get install adduser libfontconfig
+<< telecharger la dernière version du package 'arm' fourni dans la wiki end .deb >>
 sudo dpkg -i /tmp/grafana_4.6.3_armhf.deb
 sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable grafana-server
