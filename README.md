@@ -66,15 +66,22 @@ server {
 	index index.html index.htm index.nginx-debian.html;
 	server_name _;
 
-	#obliger de faire cela pour by-passer le bug concernant l'acces au fichier editor.js du pluggin warp10
+
 	location / {
-		proxy_pass http://localhost:3000/;
+                try_files $uri
+                $uri/ =404;
 	}
 
 	#redirection vers grafana
 	location /grafana/ {
 		proxy_pass http://localhost:3000/;
 	}
+
+	#obliger de faire cela pour by-passer le bug concernant l'acces au fichier editor.js du pluggin warp10
+        location /public/plugins/ {
+                proxy_pass http://localhost:3000/public/plugins/;
+        }
+
 	#redirection vers warp10
 	location /warp10/ {
 		proxy_pass http://localhost:8080/;
