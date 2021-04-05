@@ -22,6 +22,8 @@ le Raspbery PI 2 B, avec quelques capteurs connectés en I2C
 ## Comment faire ...
 ### schéma des composants logiciels
 ![matos](doc/images/schema_archi1.jpg)
+### cablage capteur
+![matos](doc/images/layout_I2C.png)
 
 
 Nginx : serveur web frontal utilisé en reverse-proxy afin de permettre aux clients ( tablette, ordi, smartphone ) d'accéder aux applications en passant par le port standard http (80). Ceci permet parfois d'éviter aux clients d'être bloqués par les politiques de sécurité mises en places par les fournisseurs d'accès à internet.
